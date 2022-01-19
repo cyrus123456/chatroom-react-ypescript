@@ -11,9 +11,7 @@ export default function Login() {
       if (!loginFormData[key]) { nextFlag = true }
     }
     if (nextFlag) { return }
-    login({
-
-    }).then()
+    login(loginFormData).then()
     Dialog.alert({
       content: JSON.stringify(loginFormData),
     })
@@ -37,14 +35,14 @@ export default function Login() {
         }
       >
         <Form.Item
-          name="账号"
+          name="UserID"
           label="账号"
           rules={[{ required: true, message: '账号不能为空' }]}
         >
           <Input placeholder='请输入账号' ></Input>
         </Form.Item>
         <Form.Item
-          name="密码"
+          name="UserPwd"
           label="密码"
           rules={[{ required: true, message: '密码不能为空' }]}
         >

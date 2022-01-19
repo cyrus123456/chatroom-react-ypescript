@@ -1,15 +1,20 @@
 import React from 'react'
 import { Form, Input, NavBar, Button, Dialog } from 'antd-mobile'
+import { login } from '../../netWork/request'
 
 export default function Login() {
   const [loginForm] = Form.useForm()
   const onSubmit = () => {
     const loginFormData = loginForm.getFieldsValue()
-    let nextFlag = true
+    let nextFlag = false
     for (const key in loginFormData) {
-      if (!loginFormData[key]) { nextFlag = false }
+      if (!loginFormData[key]) { nextFlag = true }
     }
-    nextFlag && Dialog.alert({
+    if (nextFlag) { return }
+    login({
+
+    }).then()
+    Dialog.alert({
       content: JSON.stringify(loginFormData),
     })
   }

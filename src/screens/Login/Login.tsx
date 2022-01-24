@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, NavBar, Button, Dialog } from 'antd-mobile'
-import { login } from '../../netWork/request'
+import { login, tokenVerify } from '../../netWork/request'
 
 export default function Login() {
   const [loginForm] = Form.useForm()
@@ -11,10 +11,13 @@ export default function Login() {
       if (!loginFormData[key]) { nextFlag = true }
     }
     if (nextFlag) { return }
-    login(loginFormData).then()
+    login(loginFormData)
     Dialog.alert({
       content: JSON.stringify(loginFormData),
     })
+  }
+  const onClickTokenVerify = () => {
+    tokenVerify()
   }
   return (
     <>
@@ -51,11 +54,11 @@ export default function Login() {
       </Form>
       <div style={{ margin: "1rem" }} >
         <Button
-          onClick={() => { alert('跳转注册页面') }}
+          onClick={onClickTokenVerify}
           block
           color='default'
           size='large'>
-          注册
+          注册(临时token验证)
         </Button>
       </div>
     </>

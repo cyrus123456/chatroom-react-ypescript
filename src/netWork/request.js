@@ -7,3 +7,11 @@ export function login(data) {
     data
   })
 }
+
+export function tokenVerify(data) {
+  return request({
+    url: '/tokenVerify', 
+    method: 'post',
+    data
+  })
+}

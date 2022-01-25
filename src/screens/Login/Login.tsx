@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, NavBar, Button, Dialog } from 'antd-mobile'
-import { login, tokenVerify } from '../../netWork/request'
+import { login, tokenVerify,tokenRefresh } from '../../netWork/request'
 
 export default function Login() {
   const [loginForm] = Form.useForm()
@@ -18,6 +18,9 @@ export default function Login() {
   }
   const onClickTokenVerify = () => {
     tokenVerify()
+  }
+  const onClickTokenRefresh = () => {
+    tokenRefresh()
   }
   return (
     <>
@@ -59,6 +62,15 @@ export default function Login() {
           color='default'
           size='large'>
           注册(临时token验证)
+        </Button>
+      </div>
+      <div style={{ margin: "1rem" }} >
+        <Button
+          onClick={onClickTokenRefresh}
+          block
+          color='default'
+          size='large'>
+          续签token
         </Button>
       </div>
     </>

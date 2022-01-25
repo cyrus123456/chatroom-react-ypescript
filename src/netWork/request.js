@@ -15,3 +15,11 @@ export function tokenVerify(data) {
     data
   })
 }
+
+export function tokenRefresh(data) {
+  return request({
+    url: '/refresh', 
+    method: 'post',
+    data
+  })
+}

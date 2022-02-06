@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import appStyle from './App.module.css';
 import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 import { TabBar } from 'antd-mobile'
 import { UserContactOutline, MessageOutline, UserOutline } from 'antd-mobile-icons'
@@ -33,19 +33,21 @@ function App() {
     },
   ]
   return (
-    <>
+    <div className={appStyle.body} >
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Chat" element={<Chat />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/User" element={<User />} />
       </Routes>
-      <TabBar activeKey={pathname} onChange={setRouteActive}>
-        {tabs.map(item => (
-          <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
-        ))}
-      </TabBar>
-    </>
+      <div className={appStyle.bottom} >
+        <TabBar activeKey={pathname} onChange={setRouteActive}>
+          {tabs.map(item => (
+            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+          ))}
+        </TabBar>
+      </div>
+    </div>
   );
 }
 

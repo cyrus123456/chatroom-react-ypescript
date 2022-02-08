@@ -1,6 +1,5 @@
 import React from 'react'
-import LoginStyle from './Login.module.css'
-import { Form, Input, Button, Checkbox, Modal, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Modal, Row,  } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, tokenVerify, tokenRefresh } from '../../netWork/request'
 

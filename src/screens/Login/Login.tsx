@@ -1,18 +1,23 @@
 import React from 'react'
-import { Form, Input, Button, Checkbox, Modal, Row,  } from 'antd';
+import { Form, Input, Button, Checkbox, Modal, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, tokenVerify, tokenRefresh } from '../../netWork/request'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate()
   const [loginForm] = Form.useForm()
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const loginFormData = loginForm.getFieldsValue()
     let nextFlag = false
     for (const key in loginFormData) {
       if (!loginFormData[key]) { nextFlag = true }
     }
     if (nextFlag) { return }
-    login(loginFormData)
+    await login(loginFormData)
+    // if (getCookie("reactToken")) {
+    // navigate("/index/Chat");
+    // }
     Modal.info({
       title: '表单详情',
       content: JSON.stringify(loginFormData),
@@ -26,12 +31,13 @@ export default function Login() {
     tokenRefresh()
   }
   return (
-    <Row justify="space-around" align="top" style={{ height: "100vh", backgroundColor: "#ececec" }} >
+    <Row justify="space-around" align="top" style={{ height: "100vh", backgroundColor: "#24292f" }} >
       <Form
-        style={{ width: "350px", marginTop: "20vh", padding: "30px", backgroundColor: "#ffffff", borderRadius: "10px" }}
+        style={{ width: "350px", marginTop: "20vh", padding: "30px", backgroundColor: "#fcfcfc", borderRadius: "10px" }}
         name="loginForm"
         form={loginForm}
         layout='horizontal'
+        validateTrigger={["onBlur", "onChange"]}
       >
         <Form.Item
           name="UserID"
@@ -49,8 +55,8 @@ export default function Login() {
           <Input prefix={<LockOutlined className="site-form-item-icon" />} placeholder='请输入密码' ></Input>
         </Form.Item>
         <Row justify="space-between" align="middle" >
-          <Form.Item name="Remember" valuePropName="checked">
-            <Checkbox>记住我</Checkbox>
+          <Form.Item>
+            <Checkbox onChange={(e: any) => { console.log(`checked = ${e.target.checked}`) }}>记住我</Checkbox>
           </Form.Item>
           <Form.Item>
             <Button

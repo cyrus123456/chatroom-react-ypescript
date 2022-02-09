@@ -1,6 +1,6 @@
 import React from 'react';
 import appStyle from './App.module.css';
-import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import { MessageFilled, ProfileFilled, MehFilled } from '@ant-design/icons'
 import { Menu, Layout } from 'antd';
 import Chat from './screens/Chat/Chat';
@@ -10,7 +10,6 @@ const { Content, Sider } = Layout;
 
 function App() {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const setRouteActive = (e: any) => {
     navigate(e.key);
   }
@@ -34,19 +33,19 @@ function App() {
 
   return (
     <Layout hasSider>
-          <Sider
-            collapsed={true}
-            className={appStyle.leftSide}
-          >
-            <Menu
-              activeKey={pathname} inlineCollapsed={true}
-              onClick={setRouteActive} mode="inline" theme="dark"
-            >
-              {tabs.map(item => (
-                <Menu.Item key={item.key} icon={item.icon} title={item.title} />
-              ))}
-            </Menu>
-          </Sider>
+      <Sider
+        collapsed={true}
+        className={appStyle.leftSide}
+      >
+        <Menu
+          inlineCollapsed={true}
+          onClick={setRouteActive} mode="inline" theme="dark"
+        >
+          {tabs.map(item => (
+            <Menu.Item key={item.key} icon={item.icon} title={item.title} />
+          ))}
+        </Menu>
+      </Sider>
       <Content>
         <Routes>
           <Route path="/Chat" element={<Chat />} />

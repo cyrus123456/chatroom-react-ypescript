@@ -1,7 +1,7 @@
 import React from 'react'
-import { Form, Input, Button, Checkbox, Modal, Row } from 'antd';
+import { Form, Input, Button, Checkbox, Modal, Row, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { login, tokenVerify, tokenRefresh } from '../../netWork/request'
+import { loginRequest, tokenVerifyRequest, tokenRefreshRequest } from '../../netWork/request'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
@@ -13,22 +13,21 @@ export default function Login() {
     for (const key in loginFormData) {
       if (!loginFormData[key]) { nextFlag = true }
     }
+    // 非空验证
     if (nextFlag) { return }
-    await login(loginFormData)
-    // if (getCookie("reactToken")) {
-    // navigate("/index/Chat");
-    // }
+    await loginRequest(loginFormData)
+    let resTokenVerifyRequest = await tokenVerifyRequest()
+    if (resTokenVerifyRequest.data.indexOf("Welcome") >= 0) { navigate("/index/Chat") }
+  }
+  const onClickTokenVerify = () => {
     Modal.info({
-      title: '表单详情',
-      content: JSON.stringify(loginFormData),
+      title: 'This is a notification message',
+      content: '注册',
       onOk() { },
     });
   }
-  const onClickTokenVerify = () => {
-    tokenVerify()
-  }
   const onClickTokenRefresh = () => {
-    tokenRefresh()
+    tokenRefreshRequest()
   }
   return (
     <Row justify="space-around" align="top" style={{ height: "100vh", backgroundColor: "#24292f" }} >
@@ -56,11 +55,19 @@ export default function Login() {
         </Form.Item>
         <Row justify="space-between" align="middle" >
           <Form.Item>
-            <Checkbox onChange={(e: any) => { console.log(`checked = ${e.target.checked}`) }}>记住我</Checkbox>
+            <Checkbox onChange={(e: any) => {
+              message.info(`checked = ${e.target.checked}`)
+            }}>记住我</Checkbox>
           </Form.Item>
           <Form.Item>
             <Button
-              onClick={() => { console.log("忘记密码") }}
+              onClick={() => {
+                Modal.info({
+                  title: 'This is a notification message',
+                  content: '忘记密码',
+                  onOk() { },
+                });
+              }}
               type="link"
             >
               忘记密码
@@ -82,7 +89,7 @@ export default function Login() {
             onClick={onClickTokenVerify}
             type="link"
           >
-            注册(临时token验证)
+            注册
           </Button>
         </Form.Item>
         <Form.Item>

@@ -93,9 +93,9 @@ export default function Chat() {
         <div
           style={{
             flex: "1",
-            marginRight: "3px",
             overflowY: "scroll",
-            overflowX: "hidden"
+            overflowX: "hidden",
+            cursor: "pointer"
           }}
         >
           <List
@@ -134,7 +134,7 @@ export default function Chat() {
             <Button icon={<UsergroupAddOutlined />} />
           </Tooltip>
         </Row>
-        <div style={{ flex: "1", overflowY: "scroll", overflowX: "hidden", marginRight: "3px", }}>
+        <div style={{ flex: "1", overflowY: "scroll", overflowX: "hidden" }}>
           <List
             dataSource={data}
             style={{ padding: '0 20px 0 20px' }}

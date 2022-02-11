@@ -5,14 +5,14 @@ import Login from './screens/Login/Login';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/index/*" element={<App />} />
-        <Route path="/Login" element={<Login />} />
+        <Route path='/index/*' element={<App />} />
+        <Route path='/Login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

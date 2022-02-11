@@ -1,54 +1,159 @@
 import React from 'react';
+import './Chat.css'
 import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+const { TextArea } = Input;
 export default function Chat() {
   const data = [
     {
       title: 'Ant Design Title 1',
+      sender: true
     },
     {
       title: 'Ant Design Title 2',
+      sender: false
     },
     {
       title: 'Ant Design Title 3',
+      sender: true
     },
     {
       title: 'Ant Design Title 4',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 1',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 2',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 3',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 4',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 1',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 2',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 3',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 4',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 1',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 2',
+      sender: false
+    },
+    {
+      title: 'Ant Design Title 3',
+      sender: true
+    },
+    {
+      title: 'Ant Design Title 4',
+      sender: false
     },
   ];
   return <>
     <Row>
-      <Col flex="300px">
-        <List
-          itemLayout="horizontal"
-          dataSource={data}
-          style={{ padding: '0 20px 0 20px' }}
-          header={
-            <Row>
-              <Col flex="auto">
-                <Input placeholder="搜索" prefix={<SearchOutlined />} />
-              </Col>
-              <Col flex="32px">
-                <Tooltip title="群聊">
-                  <Button icon={<PlusOutlined />} />
-                </Tooltip>
-              </Col>
-            </Row>
-          }
-          renderItem={item => (
-            <List.Item
-              style={{ borderBottomColor: '#dddddd' }}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={<span >{item.title}</span>}
-                description="最新聊天内容"
-              />
-            </List.Item>
-          )}
-        />
+      <Col flex="300px"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+        }}
+      >
+        <Row align='middle' style={{ height: "57px", padding: '0 20px 0 20px' }} >
+          <Col flex="auto">
+            <Input placeholder="搜索" prefix={<SearchOutlined />} />
+          </Col>
+          <Col flex="32px">
+            <Tooltip title="添加好友">
+              <Button icon={<PlusOutlined />} />
+            </Tooltip>
+          </Col>
+        </Row>
+        <div
+          style={{
+            flex: "1",
+            paddingLeft: '20px',
+            marginRight: "3px",
+            overflowY: "scroll",
+            overflowX: "hidden"
+          }}
+        >
+          <List
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={item => (
+              <List.Item
+                style={{ borderBottomColor: '#dddddd' }}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                  title={<span >{item.title}</span>}
+                  description="最新聊天内容"
+                />
+              </List.Item>
+            )}
+          />
+        </div>
       </Col>
-      <Col flex="auto">Fill Rest</Col>
-    </Row>
+      <Col style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        borderLeft: "solid 1px #dddddd",
+        backgroundColor: "#fdfdfd"
+      }} flex="auto">
+        <Row
+          justify='space-between'
+          align="middle"
+          style={{ height: "57px", borderBottom: "solid 1px #dddddd", padding: "10px" }}
+        >
+          <span style={{ fontSize: "large", fontWeight: "bold" }}>王王</span>
+          <Tooltip title="发起群聊">
+            <Button icon={<UsergroupAddOutlined />} />
+          </Tooltip>
+        </Row>
+        <div style={{ flex: "1", overflowY: "scroll", overflowX: "hidden", marginRight: "3px", }}>
+          <List
+            dataSource={data}
+            style={{ padding: '0 20px 0 20px' }}
+            renderItem={item => (
+              <Row justify={item.sender ? 'end' : 'start'} align='middle' >
+                <span
+                  style={{ backgroundColor: item.sender ? "#cce4fc" : "#f0f2f5", padding: "5px", color: "#000000", margin: "10px 0 10px 0" }}
+                >
+                  {item.title}
+                </span>
+              </Row >
+            )}
+          />
+        </div>
+        <div style={{ height: "200px", borderTop: "solid 1px #dddddd", padding: "15px 3px 15px 15px" }}>
+          <TextArea style={{ resize: "none" }} rows={6} bordered={false} />
+          <Row justify='end' >
+            <Button type="link">发送(S)</Button>
+          </Row>
+        </div>
+      </Col>
+    </Row >
   </>;
 }

@@ -178,7 +178,11 @@
     // 函数名前必须有空格
     "space-before-function-paren": [
       true,
-      "asyncArrow"
+      {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+      }
     ],
     // 括号内首尾禁止有空格
     "space-within-parens": [
@@ -296,7 +300,7 @@
     ],
     "no-array-constructor": 2,
     "no-caller": 2,
-    "no-console": "off",
+    "no-console": false,
     "no-class-assign": 2,
     "no-cond-assign": 2,
     "no-const-assign": 2,
@@ -480,12 +484,12 @@
       2,
       "never"
     ],
-    "prefer-const": 2,
+    "prefer-const": true,
     "object-curly-spacing": [
       2,
       "always",
       {
-      "objectsInObjects": false
+        "objectsInObjects": false
       }
     ],
     "array-bracket-spacing": [

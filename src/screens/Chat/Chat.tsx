@@ -7,19 +7,19 @@ let ws: WebSocket
 export default function Chat() {
   useEffect(() => {
     ws = new WebSocket('ws://localhost:9876/socket');
+    ws.onopen = () => {
+      console.log('Successfully WebSocket Connected');
+    };
+    ws.onerror = error => {
+      console.log('Socket Error: ', error);
+    };
+    ws.onmessage = msg => {
+      console.log('WebSocket收到的消息', msg);
+    };
     return () => {
       ws.close()
     }
   }, [])
-  ws.onopen = () => {
-    console.log('Successfully WebSocket Connected');
-  };
-  ws.onmessage = msg => {
-    console.log('WebSocket收到的消息', msg);
-  };
-  ws.onerror = error => {
-    console.log('Socket Error: ', error);
-  };
   const data = [
     {
       title: 'Ant Design Title 1',

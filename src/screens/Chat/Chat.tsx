@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Chat.css';
 import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
-export default function Chat () {
-  const ws = new WebSocket('ws://localhost:9876/socket');
+let ws: WebSocket
+export default function Chat() {
+  useEffect(() => {
+    ws = new WebSocket('ws://localhost:9876/socket');
+    return () => {
+      ws.close()
+    }
+  }, [])
   ws.onopen = () => {
     console.log('Successfully WebSocket Connected');
   };

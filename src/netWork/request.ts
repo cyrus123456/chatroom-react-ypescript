@@ -1,6 +1,6 @@
 import request from './index';
 
-export function loginRequest(data?: object) {
+export function loginRequest (data?: object) {
   return request({
     url: '/login',
     method: 'post',
@@ -8,7 +8,7 @@ export function loginRequest(data?: object) {
   });
 }
 
-export function tokenVerifyRequest(data?: object) {
+export function tokenVerifyRequest (data?: object) {
   return request({
     url: '/tokenVerify',
     method: 'post',
@@ -16,7 +16,7 @@ export function tokenVerifyRequest(data?: object) {
   });
 }
 
-export function tokenRefreshRequest(data?: object) {
+export function tokenRefreshRequest (data?: object) {
   return request({
     url: '/refresh',
     method: 'post',

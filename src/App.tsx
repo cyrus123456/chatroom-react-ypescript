@@ -1,4 +1,3 @@
-import React from 'react';
 import appStyle from './App.module.css';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import { MessageOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
@@ -7,8 +6,7 @@ import Chat from './screens/Chat/Chat';
 import User from './screens/User/User';
 import Contact from './screens/Contact/Contact';
 const { Content, Sider } = Layout;
-
-function App() {
+function App () {
   const location = useLocation();
   const navigate = useNavigate();
   const setRouteActive = (e: any) => {
@@ -31,7 +29,6 @@ function App() {
       icon: <UserOutlined />,
     },
   ];
-
   return (
     <Layout hasSider>
       <Sider

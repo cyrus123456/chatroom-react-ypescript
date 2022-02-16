@@ -1,10 +1,9 @@
-import React from 'react';
 import { Form, Input, Button, Checkbox, Modal, Row, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loginRequest, tokenVerifyRequest, tokenRefreshRequest } from '../../netWork/request';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login () {
   const navigate = useNavigate();
   const [loginForm] = Form.useForm();
   const onSubmit = async () => {

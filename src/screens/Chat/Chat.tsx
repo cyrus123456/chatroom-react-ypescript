@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Chat.css';
 import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
-export default function Chat() {
+export default function Chat () {
+  const ws = new WebSocket('ws://localhost:9876/socket');
+  ws.onopen = () => {
+    console.log('Successfully WebSocket Connected');
+  };
+  ws.onmessage = msg => {
+    console.log('WebSocket收到的消息', msg);
+  };
+  ws.onerror = error => {
+    console.log('Socket Error: ', error);
+  };
   const data = [
     {
       title: 'Ant Design Title 1',
@@ -157,7 +167,7 @@ export default function Chat() {
         <div style={{ height: '200px', borderTop: 'solid 1px #dddddd', padding: '15px 3px 15px 15px' }}>
           <TextArea style={{ resize: 'none' }} rows={6} bordered={false} />
           <Row justify='end' >
-            <Button type='link'>发送(S)</Button>
+            <Button type='link' onClick={() => { ws.send('Hello Server!'); }} >发送(S)</Button>
           </Row>
         </div>
       </Col>

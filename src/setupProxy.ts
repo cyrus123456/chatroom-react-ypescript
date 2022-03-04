@@ -1,9 +1,9 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');  // 注意写法，这是1.0以后的版本，最好按抄
+import { createProxyMiddleware } from 'http-proxy-middleware';  // 注意写法，这是1.0以后的版本，最好按抄
 
-module.exports = (app) => {
+module.exports = (app:any) => {
   app.use(createProxyMiddleware('/goApi',
     {
-      target: 'http://127.0.0.1:8080',
+      target: 'http://127.0.0.1:9876',
       pathRewrite: {
         '^/goApi': '',
       },

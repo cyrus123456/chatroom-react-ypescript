@@ -175,7 +175,8 @@ export default function Chat() {
           <Row justify='end' >
             <Button type='link' onClick={() => {
               ws.send(JSON.stringify({
-                chatRoomid: '123',
+                chatRoomId: '123',
+                messageRecipientId:'132',
                 messageContent: 'Hello server',
               }));
             }} >发送(S)</Button>

@@ -173,7 +173,7 @@ export default function Chat() {
         <div style={{ height: '200px', borderTop: 'solid 1px #dddddd', padding: '15px 3px 15px 15px' }}>
           <TextArea style={{ resize: 'none' }} rows={6} bordered={false} />
           <Row justify='end' >
-            <Button type='link' onClick={() => { ws.send('Hello Server!'); }} >发送(S)</Button>
+            <Button type='link' onClick={() => { ws.send(JSON.stringify({qwe:'Hello Server!'})) }} >发送(S)</Button>
           </Row>
         </div>
       </Col>

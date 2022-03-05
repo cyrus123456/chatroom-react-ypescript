@@ -4,7 +4,7 @@ import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 let ws: WebSocket;
-export default function Chat () {
+export default function Chat() {
   useEffect(() => {
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
@@ -173,7 +173,12 @@ export default function Chat () {
         <div style={{ height: '200px', borderTop: 'solid 1px #dddddd', padding: '15px 3px 15px 15px' }}>
           <TextArea style={{ resize: 'none' }} rows={6} bordered={false} />
           <Row justify='end' >
-            <Button type='link' onClick={() => { ws.send(JSON.stringify({ qwe: 'Hello Server!' })); }} >发送(S)</Button>
+            <Button type='link' onClick={() => {
+              ws.send(JSON.stringify({
+                chatRoomid: '123',
+                messageContent: 'Hello server',
+              }));
+            }} >发送(S)</Button>
           </Row>
         </div>
       </Col>

@@ -87,6 +87,15 @@ export default function Chat() {
     },
   ];
   const [ActiveCheckedChat, setActiveCheckedChat] = useState(data[0].title);
+  const [valueTextArea, setValueTextArea] = useState('');
+  function sendMessages() {
+    ws.send(JSON.stringify({
+      UserId: '123',
+      ChatRoomId: '1',
+      MessageRecipientId: ['456'],
+      MessageContent: valueTextArea,
+    }));
+  }
   return <>
     <Row>
       <Col flex='300px'
@@ -171,16 +180,15 @@ export default function Chat() {
           />
         </div>
         <div style={{ height: '200px', borderTop: 'solid 1px #dddddd', padding: '15px 3px 15px 15px' }}>
-          <TextArea style={{ resize: 'none' }} rows={6} bordered={false} />
+          <TextArea
+            onPressEnter={sendMessages}
+            onChange={(e) => { setValueTextArea(e.target.value) }}
+            style={{ resize: 'none' }}
+            rows={6}
+            bordered={false}
+          />
           <Row justify='end' >
-            <Button type='link' onClick={() => {
-              ws.send(JSON.stringify({
-                UserId: '456',
-                ChatRoomId: '1',
-                MessageRecipientId: ['123'],
-                MessageContent: 'Hello server',
-              }));
-            }} >发送(S)</Button>
+            <Button type='link' onClick={sendMessages} >发送(S)</Button>
           </Row>
         </div>
       </Col>

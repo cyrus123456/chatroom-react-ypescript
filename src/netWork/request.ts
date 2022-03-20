@@ -23,3 +23,10 @@ export function tokenRefreshRequest (data?: object) {
     data
   });
 }
+export function refreshChatList (data?: object) {
+  return request({
+    url: '/refreshChatList',
+    method: 'post',
+    data
+  });
+}

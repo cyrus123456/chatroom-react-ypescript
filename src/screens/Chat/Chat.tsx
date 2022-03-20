@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import './Chat.css';
 import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { refreshChatList } from '../../netWork/request';
+
 const { TextArea } = Input;
 let ws: WebSocket;
 export default function Chat() {
+  refreshChatList().then(res => {
+    console.log('res', res)
+  })
   useEffect(() => {
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {

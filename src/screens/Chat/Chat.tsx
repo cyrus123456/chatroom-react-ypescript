@@ -19,8 +19,9 @@ export default function Chat() {
     console.log('typeof jwtObj :>> ', typeof jwtuid, jwtuid);
     refreshChatList({
       uid: jwtuid
-    }).then(res => {
+    }).then((res: any) => {
       console.log('res', res)
+      setUsersChatroom(res.UsersChatroomDb)
     })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {

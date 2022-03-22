@@ -3,14 +3,25 @@ import './Chat.css';
 import { Row, Col, List, Avatar, Input, Tooltip, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { refreshChatList } from '../../netWork/request';
+import { getCookie } from '../../utils/cookies'
+import jwt_decode from 'jwt-decode';
+
 
 const { TextArea } = Input;
 let ws: WebSocket;
 export default function Chat() {
-  refreshChatList().then(res => {
-    console.log('res', res)
-  })
   useEffect(() => {
+    interface myToken {
+      UserID: string,
+      exp: number
+    }
+    const jwtuid: string = jwt_decode<myToken>(getCookie('reactToken')).UserID
+    console.log('typeof jwtObj :>> ', typeof jwtuid, jwtuid);
+    refreshChatList({
+      uid: jwtuid
+    }).then(res => {
+      console.log('res', res)
+    })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
       console.log('Successfully WebSocket Connected');
@@ -91,9 +102,11 @@ export default function Chat() {
       sender: false
     },
   ];
+  const [chatrooms, setChatrooms] = useState([]);
+  const [usersChatrooms, setUsersChatroom] = useState([]);
   const [ActiveCheckedChat, setActiveCheckedChat] = useState(data[0].title);
   const [valueTextArea, setValueTextArea] = useState('');
-  function sendMessages() {
+  const sendMessages = () => {
     ws.send(JSON.stringify({
       UserId: '123',
       ChatRoomId: '1',

@@ -104,7 +104,7 @@ export default function Chat() {
     },
   ];
   const [chatrooms, setChatrooms] = useState([]);
-  const [usersChatrooms, setUsersChatroom] = useState([]);
+  const [usersChatrooms, setUsersChatroom] = useState<any[]> ([]);
   const [ActiveCheckedChat, setActiveCheckedChat] = useState(data[0].title);
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {

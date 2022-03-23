@@ -36,8 +36,7 @@ export default function Chat() {
   }, []);
   const [chatrooms, setChatrooms] = useState([]);
   const [usersChatrooms, setUsersChatroom] = useState<any[]>([]);
-  const usersChatroomsOkindex = usersChatrooms.findIndex(item => item.sender)
-  const [ActiveCheckedChat, setActiveCheckedChat] = useState(true);
+  const [ActiveCheckedChat, setActiveCheckedChat] = useState(false);
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {
     ws.send(JSON.stringify({

@@ -7,6 +7,7 @@ import { getCookie } from '../../utils/cookies'
 import jwt_decode from 'jwt-decode';
 const { TextArea } = Input;
 let ws: WebSocket;
+let jwtuid: string
 
 export default function Chat() {
   useEffect(() => {
@@ -14,11 +15,12 @@ export default function Chat() {
       UserID: string,
       exp: number
     }
-    const jwtuid: string = jwt_decode<MyToken>(getCookie('reactToken')).UserID
+    jwtuid = jwt_decode<MyToken>(getCookie('reactToken')).UserID
     refreshChatList({
       uid: jwtuid
     }).then((res: any) => {
       setUsersChatroom(res.data.UsersChatroomDb)
+      setChatrooms(res.data.ChatroomDb)
     })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
@@ -34,9 +36,9 @@ export default function Chat() {
       ws.close();
     };
   }, []);
-  const [chatrooms, setChatrooms] = useState([]);
+  const [chatrooms, setChatrooms] = useState<{ [Key: string]: any[] }>({ '': [] });
   const [usersChatrooms, setUsersChatroom] = useState<any[]>([]);
-  const [ActiveCheckedChat, setActiveCheckedChat] = useState(false);
+  const [ActiveCheckedChat, setActiveCheckedChat] = useState('');
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {
     ws.send(JSON.stringify({
@@ -111,10 +113,10 @@ export default function Chat() {
         </Row>
         <div style={{ flex: '1', overflowY: 'scroll', overflowX: 'hidden' }}>
           <List
-            dataSource={usersChatrooms}
+            dataSource={chatrooms[ActiveCheckedChat]}
             style={{ padding: '0 20px 0 20px' }}
             renderItem={item => (
-              <Row justify={item.sender ? 'end' : 'start'} align='middle' >
+              <Row justify={item.sender === jwtuid ? 'end' : 'start'} align='middle' >
                 <span
                   style={{
                     backgroundColor: item.sender ? '#cce4fc' : '#f0f2f5',
@@ -123,7 +125,7 @@ export default function Chat() {
                     margin: '10px 0 10px 0'
                   }}
                 >
-                  {item.title}
+                  {item.sender === jwtuid ? `${item.messageTextContent}-${item.timeStamp}` : `${item.timeStamp}-${item.messageTextContent}`}
                 </span>
               </Row >
             )}

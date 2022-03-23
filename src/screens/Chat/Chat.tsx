@@ -5,23 +5,20 @@ import { SearchOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/
 import { refreshChatList } from '../../netWork/request';
 import { getCookie } from '../../utils/cookies'
 import jwt_decode from 'jwt-decode';
-
-
 const { TextArea } = Input;
 let ws: WebSocket;
+
 export default function Chat() {
   useEffect(() => {
-    interface myToken {
+    interface MyToken {
       UserID: string,
       exp: number
     }
-    const jwtuid: string = jwt_decode<myToken>(getCookie('reactToken')).UserID
-    console.log('typeof jwtObj :>> ', typeof jwtuid, jwtuid);
+    const jwtuid: string = jwt_decode<MyToken>(getCookie('reactToken')).UserID
     refreshChatList({
       uid: jwtuid
     }).then((res: any) => {
-      console.log('res', res)
-      setUsersChatroom(res.UsersChatroomDb)
+      setUsersChatroom(res.data.UsersChatroomDb)
     })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
@@ -37,75 +34,10 @@ export default function Chat() {
       ws.close();
     };
   }, []);
-  const data = [
-    {
-      title: 'Ant Design Title 1',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 2',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 3',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 4',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 5',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 6',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 7',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 8',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 9',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 10',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 11',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 12',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 13',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 14',
-      sender: false
-    },
-    {
-      title: 'Ant Design Title 15',
-      sender: true
-    },
-    {
-      title: 'Ant Design Title 16',
-      sender: false
-    },
-  ];
   const [chatrooms, setChatrooms] = useState([]);
-  const [usersChatrooms, setUsersChatroom] = useState<any[]> ([]);
-  const [ActiveCheckedChat, setActiveCheckedChat] = useState(data[0].title);
+  const [usersChatrooms, setUsersChatroom] = useState<any[]>([]);
+  const usersChatroomsOkindex = usersChatrooms.findIndex(item => item.sender)
+  const [ActiveCheckedChat, setActiveCheckedChat] = useState(true);
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {
     ws.send(JSON.stringify({
@@ -144,7 +76,7 @@ export default function Chat() {
         >
           <List
             itemLayout='horizontal'
-            dataSource={data}
+            dataSource={usersChatrooms}
             renderItem={item => (
               <List.Item
                 className={ActiveCheckedChat === item.title ? 'ActiveBackground' : ''}
@@ -180,7 +112,7 @@ export default function Chat() {
         </Row>
         <div style={{ flex: '1', overflowY: 'scroll', overflowX: 'hidden' }}>
           <List
-            dataSource={data}
+            dataSource={usersChatrooms}
             style={{ padding: '0 20px 0 20px' }}
             renderItem={item => (
               <Row justify={item.sender ? 'end' : 'start'} align='middle' >

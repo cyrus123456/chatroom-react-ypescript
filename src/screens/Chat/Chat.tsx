@@ -43,6 +43,7 @@ export default function Chat() {
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {
     ws.send(JSON.stringify({
+      TimeStamp: '',
       Sender: jwtuid,
       MessageRecipientId: ActiveCheckedChat.split('_').filter(item => item !== jwtuid),
       ChatRoomId: ActiveCheckedChat,

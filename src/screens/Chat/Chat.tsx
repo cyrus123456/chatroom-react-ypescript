@@ -21,6 +21,7 @@ export default function Chat() {
     }).then((res: any) => {
       setUsersChatroom(res.data.UsersChatroomDb)
       setChatrooms(res.data.ChatroomDb)
+      setActiveCheckedChat(chatrooms[ActiveCheckedChat][0])
     })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
@@ -42,10 +43,10 @@ export default function Chat() {
   const [valueTextArea, setValueTextArea] = useState('');
   const sendMessages = () => {
     ws.send(JSON.stringify({
-      UserId: '123',
-      ChatRoomId: '1',
-      MessageRecipientId: ['456'],
-      MessageContent: valueTextArea,
+      Sender: jwtuid,
+      MessageRecipientId: ActiveCheckedChat.split('_').filter(item => item !== jwtuid),
+      ChatRoomId: ActiveCheckedChat,
+      MessageTextContent: valueTextArea,
     }));
   }
   return <>

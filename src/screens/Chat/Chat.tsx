@@ -33,6 +33,21 @@ export default function Chat() {
     ws.onmessage = msg => {
       console.log('WebSocket收到的消息', msg);
     };
+    ws.onclose = event => {
+      // 关闭时的处理操作
+      const tempWs: WebSocket = ws; // 保存ws对象
+      // if(new Date().getTime() - reconnect >= 10000) { // 10秒中重连，连不上就不连了
+        // ws.close();
+      // } else {
+        ws = new WebSocket('ws://localhost:9876/socket');
+        ws.onopen = tempWs.onopen;
+        ws.onmessage = tempWs.onmessage;
+        ws.onerror = tempWs.onerror;
+        ws.onclose = tempWs.onclose;
+        // ws.keepalive = tempWs.keepalive;
+        // ws.last_health_time = -1;
+      // }
+    }
     return () => {
       ws.close();
     };

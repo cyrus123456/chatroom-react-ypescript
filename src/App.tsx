@@ -6,7 +6,7 @@ import Chat from './screens/Chat/Chat';
 import User from './screens/User/User';
 import Contact from './screens/Contact/Contact';
 const { Content, Sider } = Layout;
-function App () {
+function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const setRouteActive = (e: any) => {

@@ -3,20 +3,18 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loginRequest, tokenVerifyRequest, tokenRefreshRequest } from '../../netWork/request';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login () {
+export default function Login() {
   const navigate = useNavigate();
   const [loginForm] = Form.useForm();
-  const onSubmit = async () => {
+  const onSubmit = async() => {
     const loginFormData = loginForm.getFieldsValue();
     let nextFlag = false;
-    for (const key in loginFormData) {
-      if (!loginFormData[key]) { nextFlag = true; }
-    }
+    for (const key in loginFormData) if (!loginFormData[key]) nextFlag = true;
     // 非空验证
-    if (nextFlag) { return; }
+    if (nextFlag) return;
     await loginRequest(loginFormData);
     const resTokenVerifyRequest = await tokenVerifyRequest();
-    if (resTokenVerifyRequest.data.indexOf('Welcome') >= 0) { navigate('/index/Chat'); }
+    if (resTokenVerifyRequest.data.indexOf('Welcome') >= 0) navigate('/index/Chat');
   };
   const onClickTokenVerify = () => {
     Modal.info({

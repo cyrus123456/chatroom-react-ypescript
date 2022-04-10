@@ -1,4 +1,4 @@
-export function getCookie (cname: string) {
+export function getCookie(cname: string) {
   const name = cname + '=';
   const ca = document.cookie.split(';');
   // tslint:disable-next-line:prefer-for-of

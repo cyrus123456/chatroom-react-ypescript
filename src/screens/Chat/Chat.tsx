@@ -6,8 +6,9 @@ import { refreshChatList } from '../../netWork/request';
 import { getCookie } from '../../utils/cookies'
 import jwt_decode from 'jwt-decode';
 const { TextArea } = Input;
-let ws: WebSocket;
+let ws: WebSocket | any
 let jwtuid: string
+let webopen: number //是否链接成功
 
 export default function Chat() {
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function Chat() {
     })
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
+      webopen = 0
       console.log('Successfully WebSocket Connected');
       ws.send(JSON.stringify({
         TimeStamp: '',
@@ -34,29 +36,36 @@ export default function Chat() {
         MessageTextContent: '通知服务器缓存链接',
       }));
     };
-    ws.onerror = error => {
+    ws.onerror = (error: any) => {
       console.log('Socket Error: ', error);
     };
-    ws.onmessage = msg => {
+    ws.onmessage = (msg: any) => {
       console.log('WebSocket收到的消息', msg);
     };
-    ws.onclose = event => {
+    ws.onclose = (event: any) => {
       // 关闭时的处理操作
-      const tempWs: WebSocket = ws; // 保存ws对象
-      // if(new Date().getTime() - reconnect >= 10000) { // 10秒中重连，连不上就不连了
-        // ws.close();
-      // } else {
-        ws = new WebSocket('ws://localhost:9876/socket');
-        ws.onopen = tempWs.onopen;
-        ws.onmessage = tempWs.onmessage;
-        ws.onerror = tempWs.onerror;
-        ws.onclose = tempWs.onclose;
-        // ws.keepalive = tempWs.keepalive;
-        // ws.last_health_time = -1;
-      // }
+      if (ws !== undefined) {
+        const tempWs: WebSocket = ws; // 保存ws对象
+        // if(new Date().getTime() - reconnect >= 10000) { // 10秒中重连，连不上就不连了
+        if (webopen >= 10000) {
+          ws.close();
+          ws = undefined
+          webopen = 0
+        } else {
+          webopen++
+          console.log(`断线重连${webopen}次`);
+          ws = new WebSocket('ws://localhost:9876/socket');
+          ws.onopen = tempWs.onopen;
+          ws.onmessage = tempWs.onmessage;
+          ws.onerror = tempWs.onerror;
+          ws.onclose = tempWs.onclose;
+        }
+      }
     }
     return () => {
       ws.close();
+      ws = undefined
+      webopen = 0
     };
   }, []);
   const [chatrooms, setChatrooms] = useState<{ [Key: string]: any[] }>({ '': [] });

@@ -26,6 +26,13 @@ export default function Chat() {
     ws = new WebSocket('ws://localhost:9876/socket');
     ws.onopen = () => {
       console.log('Successfully WebSocket Connected');
+      ws.send(JSON.stringify({
+        TimeStamp: '',
+        Sender: jwtuid,
+        MessageRecipientId: [],
+        ChatRoomId: '',
+        MessageTextContent: '通知服务器缓存链接',
+      }));
     };
     ws.onerror = error => {
       console.log('Socket Error: ', error);
